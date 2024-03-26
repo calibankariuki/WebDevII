@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Gray background color */
+        }
+
+        .tile {
+            width: 170px;
+            height: 170px;
+            border: 3px solid gold; /* Gold-colored border */
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #87CEEB; /* Sky blue background */
+        }
+
+        .selected {
+            background-color: #00ff00;
+        }
+
+        /* Style for the "Place Order" and "Cancel Order" buttons */
+        button {
+            width: 200px; /* Set the width */
+            height: 50px; /* Set the height */
+            font-weight: bold; /* Make the text bold */
+            font-size: 16px; /* Set the font size */
+            border: 3px solid gold; /* Gold-colored border */
+            margin-right: 10px; /* Add margin for spacing between buttons */
+            margin-top: 20px; /* Add margin at the top of the buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="menu" id="menu"></div>
+
+    <button onclick="placeOrder()">PLACE YOUR ORDER</button>
+    <button onclick="cancelOrder()">CANCEL ORDER</button> <!-- Added Cancel Order button -->
+
+    <script>
+        const menuItems = [
+            { id: 1, name: 'VEGAN SPECIAL', price: 1500 },
+            { id: 2, name: 'BEEF SPECIAL', price: 800 },
+            { id: 3, name: 'CHICKEN SPECIAL', price: 2200 }
+        ];
+
+        let selectedItems = [];
+
+        function renderMenu() {
+            const menuElement = document.getElementById('menu');
+            menuElement.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.innerText = `${item.name} - KSh${item.price}`;
+                tile.addEventListener('click', () => toggleSelection(item));
+                menuElement.appendChild(tile);
+            });
+        }
+
+        function toggleSelection(item) {
+            const index = selectedItems.findIndex(selectedItem => selectedItem.id === item.id);
+            if (index !== -1) {
+                selectedItems.splice(index, 1);
+            } else {
+                selectedItems.push(item);
+            }
+            renderMenu();
+        }
+
+        function placeOrder() {
+            console.log("Placing order:", selectedItems);
+            selectedItems = [];
+            renderMenu();
+        }
+
+        function cancelOrder() {
+            console.log("Canceling order");
+            selectedItems = [];
+            renderMenu();
+        }
+
+        renderMenu();
+    </script>
+</body>
+</html>
